@@ -1,0 +1,140 @@
+/* Hero Section */
+.hero {
+  width: 100%;
+  min-height: 80vh;
+  background: url('https://images.unsplash.com/photo-1586281380395-19b0d27f2a5d?auto=format&fit=crop&w=1470&q=80') no-repeat center center/cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  color: #fff;
+  text-align: center;
+  padding: 0 20px;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4); /* Overlay */
+}
+
+.hero-content {
+  position: relative;
+  max-width: 800px;
+  z-index: 2;
+}
+
+.hero h1 {
+  font-size: 48px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.hero p {
+  font-size: 20px;
+  margin-bottom: 30px;
+}
+
+.hero button {
+  padding: 12px 30px;
+  background-color: #ff4081;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background 0.2s;
+}
+
+.hero button:hover {
+  background-color: #e03570;
+}
+
+/* Featured Products Section */
+.featured-products {
+  max-width: 1200px;
+  margin: 50px auto;
+  padding: 0 20px;
+}
+
+.featured-products h2 {
+  font-size: 32px;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.featured-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+/* Product card inside hero section */
+.featured-card {
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.featured-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.featured-card img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.featured-card h3 {
+  margin: 15px 0 10px 0;
+  font-size: 18px;
+}
+
+.featured-card p {
+  font-weight: bold;
+  color: #ff4081;
+  margin-bottom: 10px;
+}
+
+.featured-card button {
+  padding: 10px 15px;
+  border: none;
+  background-color: #ff4081;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background 0.2s;
+}
+
+.featured-card button:hover {
+  background-color: #e03570;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 36px;
+  }
+
+  .hero p {
+    font-size: 16px;
+  }
+
+  .hero button {
+    font-size: 16px;
+    padding: 10px 25px;
+  }
+
+  .featured-card img {
+    height: 200px;
+  }
+}

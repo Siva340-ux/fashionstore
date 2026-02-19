@@ -1,0 +1,52 @@
+.hero-container {
+  width: 100%;
+  height: 80vh;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-image 1s ease-in-out;
+}
+
+.hero-overlay {
+  text-align: center;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.35);
+  padding: 40px 20px;
+  border-radius: 12px;
+}
+
+.hero-overlay h1 {
+  font-size: 48px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.hero-overlay p {
+  font-size: 20px;
+  margin-bottom: 30px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-overlay button {
+  background-color: #ff4081;
+  color: #fff;
+  border: none;
+  padding: 15px 30px;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.hero-overlay button:hover {
+  background-color: #e73370;
+  transform: scale(1.05);
+}
