@@ -1,5 +1,5 @@
 import React from "react";
-import "./ProductCard.css";
+import "./Productcard.css";
 
 export default function ProductCard({ product, addToCart }) {
   if (!product) return null;
