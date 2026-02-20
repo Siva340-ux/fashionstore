@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase';
 import { useAuth } from '../Context/AuthContext';
+import './Register.css'; // Import the separate CSS
 
 const Register = () => {
   const [email, setEmail] = useState('');
@@ -28,45 +29,65 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Register</h2>
+    <div className="register-page">
+      <div className="register-container">
+        <div className="register-card">
+         
+          <h2 className="register-title">Create account</h2>
+          <p className="register-subtitle">Join Online Bookstore</p>
+          
+          <form className="register-form" onSubmit={handleSubmit}>
+            {error && <p className="error-message">{error}</p>}
+            
+            <div className="input-group">
+              <label htmlFor="email" className="input-label">Email</label>
+              <input
+                id="email"
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="input-field amazon-style"
+                placeholder="siva@example.com"
+              />
+            </div>
+            
+            <div className="input-group">
+              <label htmlFor="password" className="input-label">Password</label>
+              <input
+                id="password"
+                type="password"
+                required
+                minLength={6}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="input-field amazon-style"
+                placeholder="At least 6 characters"
+              />
+            </div>
+            
+            <button
+              type="submit"
+              disabled={loading}
+              className="register-button amazon-button"
+            >
+              {loading ? (
+                <span className="loading-spinner">
+                  <div className="spinner"></div>
+                  Creating...
+                </span>
+              ) : (
+                'Register'
+              )}
+            </button>
+          </form>
+          
+          <div className="register-footer">
+            <Link to="/login" className="login-link">
+              Already have an account? Login
+            </Link>
+          </div>
         </div>
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          {error && <p className="text-red-500 text-sm">{error}</p>}
-          <div>
-            <input
-              type="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              placeholder="Email"
-            />
-          </div>
-          <div>
-            <input
-              type="password"
-              required
-              minLength={6}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              placeholder="Password (min 6 chars)"
-            />
-          </div>
-          <button
-            type="submit"
-            disabled={loading}
-            className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
-          >
-            {loading ? 'Creating...' : 'Register'}
-          </button>
-          <div className="text-center">
-            <Link to="/login" className="text-indigo-600 hover:text-indigo-500">Have account? Login</Link>
-          </div>
-        </form>
       </div>
     </div>
   );
