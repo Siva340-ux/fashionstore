@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "./Contact.css";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -9,8 +8,7 @@ export default function Contact() {
   });
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e) => {
@@ -20,23 +18,16 @@ export default function Contact() {
   };
 
   return (
-    <div className="contact-page">
-      <h1 className="contact-title">Contact Fashion Store</h1>
+    <div className="page-container">
+      <h1>Contact Fashion Store</h1>
 
-      <div className="contact-info">
-        <p>
-          <strong>Email:</strong> support@fashionstore.com
-        </p>
-        <p>
-          <strong>Phone:</strong> +91 7806801454
-        </p>
-        <p>
-          <strong>Address:</strong> 123 Fashion Avenue, Style City, India
-        </p>
-      </div>
+      <div className="contact-grid">
+        <div className="contact-info">
+          <p><strong>Email:</strong> support@fashionstore.com</p>
+          <p><strong>Phone:</strong> +91 7806801454</p>
+          <p><strong>Address:</strong> Style City, India</p>
+        </div>
 
-      <div className="contact-form-container">
-        <h2>Send us a Message</h2>
         <form className="contact-form" onSubmit={handleSubmit}>
           <input
             type="text"
@@ -56,12 +47,12 @@ export default function Contact() {
           />
           <textarea
             name="message"
-            placeholder="Your Message"
             rows="5"
+            placeholder="Your Message"
             value={formData.message}
             onChange={handleChange}
             required
-          ></textarea>
+          />
           <button type="submit">Send Message</button>
         </form>
       </div>

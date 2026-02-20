@@ -1,34 +1,35 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../Context/CartContext";
-import { useAuth } from "../Context/AuthContext";  // Add this
+import { useAuth } from "../Context/AuthContext";
 import "./Navbar.css";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [dropdownOpen, setDropdownOpen] = useState(false);  // New: Account dropdown
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
   const { cart, setFilteredProducts, products } = useCart();
-  const { user, logout, loading } = useAuth();  // Add auth
+  const { user, logout, loading } = useAuth();
   const navigate = useNavigate();
 
-  // Calculate total quantity of items in cart
-  const cartCount = cart.reduce((total, item) => total + (item.quantity || 1), 0);
+  const cartCount = cart.reduce(
+    (total, item) => total + (item.quantity || 1),
+    0
+  );
 
   const handleSearch = (e) => {
     e.preventDefault();
     if (!searchQuery) return;
 
-    // Filter products based on search query
     const filtered = products.filter((product) =>
       product.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
-    setFilteredProducts(filtered);
 
-    // Redirect to Shop page
+    setFilteredProducts(filtered);
     navigate("/shop");
-    setSearchQuery(""); // Clear search bar
-    setMenuOpen(false); // Close menu if mobile
+    setSearchQuery("");
+    setMenuOpen(false);
   };
 
   const handleLogout = () => {
@@ -38,77 +39,120 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="navbar">
-      <div className="navbar-container">
-        {/* Logo */}
-        <Link to="/" className="logo">
-          <span className="highlight">Fashion</span>Store
-        </Link>
+    <>
+      <nav className="navbar">
+        <div className="navbar-container">
+          {/* Logo */}
+          <Link to="/" className="logo">
+            <span className="highlight">Fashion</span>Store
+          </Link>
 
-        {/* Hamburger Menu */}
-        <div
-          className={`hamburger ${menuOpen ? "open" : ""}`}
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
+          {/* Hamburger */}
+          <div
+            className={`hamburger ${menuOpen ? "open" : ""}`}
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
 
-        {/* Navigation Links */}
-        <div className={`nav-links ${menuOpen ? "active" : ""}`}>
-          <Link to="/" onClick={() => setMenuOpen(false)}>Home</Link>
-          <Link to="/shop" onClick={() => setMenuOpen(false)}>Shop</Link>
-          <Link to="/categories" onClick={() => setMenuOpen(false)}>Categories</Link>
-          <Link to="/about" onClick={() => setMenuOpen(false)}>About Us</Link>
-          <Link to="/contact" onClick={() => setMenuOpen(false)}>Contact</Link>
-        </div>
+          {/* Desktop Links */}
+          <div className="nav-links desktop">
+            <Link to="/">Home</Link>
+            <Link to="/shop">Shop</Link>
+            <Link to="/categories">Categories</Link>
+            <Link to="/about">About</Link>
+            <Link to="/contact">Contact</Link>
+          </div>
 
-        {/* Search + Cart + Account */}
-        <div className="nav-actions">
-          <form onSubmit={handleSearch}>
-            <input
-              type="text"
-              placeholder="Search products..."
-              className="search-bar"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </form>
+          {/* Desktop Actions */}
+          <div className="nav-actions desktop">
+            <form onSubmit={handleSearch}>
+              <input
+                type="text"
+                placeholder="Search..."
+                className="search-bar"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </form>
 
-          {/* Account Dropdown/Button */}
-          <div className="account-section" onMouseLeave={() => setDropdownOpen(false)}>
-            {loading ? (
-              <div className="account-btn loading">Loading...</div>
-            ) : user ? (
-              <>
-                <button 
+            <Link to="/cart" className="cart-btn">
+              🛒
+              {cartCount > 0 && (
+                <span className="cart-count">{cartCount}</span>
+              )}
+            </Link>
+
+            {!loading && user ? (
+              <div className="account-section">
+                <button
                   className="account-btn logged-in"
                   onClick={() => setDropdownOpen(!dropdownOpen)}
                 >
-                  Hi, {user.email.split('@')[0]} ▼
+                  Hi, {user.email.split("@")[0]} ▼
                 </button>
+
                 {dropdownOpen && (
                   <div className="account-dropdown">
-                    <Link to="/profile" className="dropdown-item" onClick={() => setDropdownOpen(false)}>Profile</Link>
-                    <button className="dropdown-item logout" onClick={handleLogout}>Logout</button>
+                    <button
+                      className="dropdown-item logout"
+                      onClick={handleLogout}
+                    >
+                      Logout
+                    </button>
                   </div>
                 )}
-              </>
+              </div>
             ) : (
               <div className="auth-buttons">
-                <Link to="/login" className="auth-btn login" onClick={() => setMenuOpen(false)}>Login</Link>
-                <Link to="/register" className="auth-btn register" onClick={() => setMenuOpen(false)}>Register</Link>
+                <Link to="/login" className="auth-btn login">
+                  Login
+                </Link>
+                <Link to="/register" className="auth-btn register">
+                  Register
+                </Link>
               </div>
             )}
           </div>
-
-          <Link to="/cart" className="cart-btn">
-            🛒
-            {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
-          </Link>
         </div>
+      </nav>
+
+      {/* ===== MOBILE DRAWER ===== */}
+      <div className={`mobile-overlay ${menuOpen ? "show" : ""}`}
+           onClick={() => setMenuOpen(false)} />
+
+      <div className={`mobile-drawer ${menuOpen ? "open" : ""}`}>
+        <form onSubmit={handleSearch} className="mobile-search">
+          <input
+            type="text"
+            placeholder="Search products..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </form>
+
+        <Link to="/" onClick={() => setMenuOpen(false)}>Home</Link>
+        <Link to="/shop" onClick={() => setMenuOpen(false)}>Shop</Link>
+        <Link to="/categories" onClick={() => setMenuOpen(false)}>Categories</Link>
+        <Link to="/about" onClick={() => setMenuOpen(false)}>About us</Link>
+        <Link to="/contact" onClick={() => setMenuOpen(false)}>Contact</Link>
+        <Link to="/cart" onClick={() => setMenuOpen(false)}>
+          Cart ({cartCount})
+        </Link>
+
+        {!loading && user ? (
+          <button className="mobile-logout" onClick={handleLogout}>
+            Logout
+          </button>
+        ) : (
+          <>
+            <Link to="/login" onClick={() => setMenuOpen(false)}>Login</Link>
+            <Link to="/register" onClick={() => setMenuOpen(false)}>Register</Link>
+          </>
+        )}
       </div>
-    </nav>
+    </>
   );
 }

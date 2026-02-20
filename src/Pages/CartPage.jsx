@@ -1,93 +1,74 @@
-// src/Pages/CartPage.jsx
 import React from "react";
 import { useCart } from "../Context/CartContext";
-import "./CartPage.css";
 
 export default function CartPage() {
   const { cart, setCart } = useCart();
 
-  // Ensure each item has a quantity
   const cartWithQuantity = cart.map((item) => ({
     ...item,
     quantity: item.quantity || 1,
   }));
 
-  // Increase quantity
-  const increaseQuantity = (id) => {
-    const updatedCart = cartWithQuantity.map((item) => {
-      if (item.id === id) {
-        return { ...item, quantity: item.quantity + 1 };
-      }
-      return item;
-    });
-    setCart(updatedCart);
+  const increaseQty = (id) => {
+    const updated = cartWithQuantity.map((item) =>
+      item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+    );
+    setCart(updated);
   };
 
-  // Decrease quantity
-  const decreaseQuantity = (id) => {
-    const updatedCart = cartWithQuantity
-      .map((item) => {
-        if (item.id === id) {
-          return { ...item, quantity: item.quantity - 1 };
-        }
-        return item;
-      })
+  const decreaseQty = (id) => {
+    const updated = cartWithQuantity
+      .map((item) =>
+        item.id === id
+          ? { ...item, quantity: item.quantity - 1 }
+          : item
+      )
       .filter((item) => item.quantity > 0);
-    setCart(updatedCart);
+    setCart(updated);
   };
 
-  // Remove item
   const removeItem = (id) => {
     setCart(cartWithQuantity.filter((item) => item.id !== id));
   };
 
-  // Calculate total price
-  const totalPrice = cartWithQuantity.reduce(
-    (total, item) => total + item.price * item.quantity,
+  const total = cartWithQuantity.reduce(
+    (acc, item) => acc + item.price * item.quantity,
     0
   );
 
-  // Buy Now - redirect to WhatsApp
-  const handleBuyNow = () => {
-    if (cartWithQuantity.length === 0) return;
-
-    let message = "Hello, I want to buy these products:\n";
-    cartWithQuantity.forEach((item) => {
-      message += `- ${item.name} x${item.quantity} = ₹${(
-        item.price * item.quantity
-      ).toFixed(2)}\n`;
-    });
-    message += `Total: ₹${totalPrice.toFixed(2)}`;
-
-    const whatsappNumber = "0000000000"; // Replace with seller's number
-    const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
-      message
-    )}`;
-    window.open(url, "_blank");
-  };
-
-  if (cartWithQuantity.length === 0)
+  if (cartWithQuantity.length === 0) {
     return (
-      <h2 style={{ textAlign: "center", marginTop: "50px" }}>
-        Your cart is empty.
-      </h2>
+      <div className="page-container">
+        <h1>Your Cart</h1>
+        <p style={{ textAlign: "center" }}>Your cart is empty.</p>
+      </div>
     );
+  }
 
   return (
-    <div className="cart-page">
+    <div className="page-container">
       <h1>Your Cart</h1>
-      <div className="cart-items">
+
+      <div className="cart-list">
         {cartWithQuantity.map((item) => (
           <div className="cart-item" key={item.id}>
             <img src={item.image} alt={item.name} />
-            <div className="item-details">
+
+            <div className="cart-details">
               <h3>{item.name}</h3>
-              <p>Price: ₹{item.price.toFixed(2)}</p>
-              <div className="quantity-controls">
-                <button onClick={() => decreaseQuantity(item.id)}>-</button>
+              <p>₹{item.price}</p>
+
+              <div className="qty-controls">
+                <button onClick={() => decreaseQty(item.id)}>-</button>
                 <span>{item.quantity}</span>
-                <button onClick={() => increaseQuantity(item.id)}>+</button>
+                <button onClick={() => increaseQty(item.id)}>+</button>
               </div>
+            </div>
+
+            <div className="cart-right">
+              <p className="item-total">
+                ₹{(item.price * item.quantity).toFixed(2)}
+              </p>
               <button
                 className="remove-btn"
                 onClick={() => removeItem(item.id)}
@@ -98,10 +79,11 @@ export default function CartPage() {
           </div>
         ))}
       </div>
-      <h2 className="total">Total: ₹{totalPrice.toFixed(2)}</h2>
-      <button className="buy-now-btn" onClick={handleBuyNow}>
-        Buy Now
-      </button>
+
+      <div className="cart-summary">
+        <h2>Total: ₹{total.toFixed(2)}</h2>
+        <button className="checkout-btn">Proceed to Checkout</button>
+      </div>
     </div>
   );
 }

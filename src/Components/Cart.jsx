@@ -46,6 +46,7 @@ export default function Cart() {
   );
 
   return (
+    
     <div className="container mx-auto px-6 py-10">
       <h2 className="text-3xl font-bold mb-6">Your Cart</h2>
 
@@ -108,7 +109,7 @@ export default function Cart() {
             <h3 className="text-xl font-bold">Total:</h3>
             <p className="text-xl font-bold">${total.toFixed(2)}</p>
           </div>
-
+         
           <button className="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800 transition">
             Proceed to Checkout
           </button>

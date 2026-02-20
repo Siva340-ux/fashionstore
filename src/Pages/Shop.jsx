@@ -6,14 +6,20 @@ import "./Shop.css";
 export default function Shop() {
   const { filteredProducts, products, addToCart } = useCart();
 
-  const displayProducts = filteredProducts.length > 0 ? filteredProducts : products;
+  const displayProducts =
+    filteredProducts.length > 0 ? filteredProducts : products;
 
   return (
-    <div className="shop-page">
+    <div className="page-container">
       <h1>Shop</h1>
-      <div className="shop-grid">
+
+      <div className="grid-responsive">
         {displayProducts.map((product) => (
-          <ProductCard key={product.id} product={product} addToCart={addToCart} />
+          <ProductCard
+            key={product.id}
+            product={product}
+            addToCart={addToCart}
+          />
         ))}
       </div>
     </div>
