@@ -60,6 +60,7 @@
   text-align: left;
 }
 
+/* Fixed Login.css - Black text for input fields */
 .input-field {
   width: 100%;
   height: 40px;
@@ -70,16 +71,21 @@
   outline: none;
   transition: border-color 0.2s, box-shadow 0.2s;
   background: white;
+  color: #111; /* Added black text color for input content */
+  text-decoration-color: #111; /* Fallback for text color */
+}
+
+.input-field::placeholder {
+  color: #a6a6a6; /* Light gray for placeholder only */
+  opacity: 1; /* Ensure placeholder shows properly */
 }
 
 .input-field:focus {
   border-color: #e77600;
   box-shadow: 0 0 0 3px rgba(231, 118, 0, 0.1);
+  color: #111; /* Ensure black text on focus too */
 }
 
-.input-field::placeholder {
-  color: #a6a6a6;
-}
 
 .amazon-style {
   font-size: 16px; /* Prevents zoom on iOS */
@@ -89,7 +95,7 @@
   width: 100%;
   height: 42px;
   border: 1px solid #a88734;
-  background: linear-gradient(to bottom, #f7dfa5, #f0c14b);
+  background: linear-gradient(to bottom, #8f19ef, #981ba8);
   color: #111;
   font-size: 16px;
   font-weight: 500;
